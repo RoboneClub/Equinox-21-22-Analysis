@@ -15,7 +15,7 @@ class MapMaker:
         self.long_data = np.array([float(data["Longitude"]) for data in self.data])
         self.alt_data = np.array([float(data["Altitude"]) for data in self.data])
 
-    def make_map_2d(self):
+    def make_map_2d(self) -> None:
 
         m = Basemap(projection='cyl',llcrnrlat=-90,urcrnrlat=90,\
             llcrnrlon=-180,urcrnrlon=180,resolution='c')
@@ -33,12 +33,15 @@ class MapMaker:
         plt.title("Equinox runtime ISS Orbit")
 
         x, y, z = self.long_data, self.lat_data, self.alt_data
-        plt.scatter(x, y, c=z, cmap="YlOrBr", marker='o', s=0.5)
+        plt.scatter(x, y, c=z, cmap="plasma", marker='o', s=0.1, label="ISS Orbit")
+        plt.colorbar(fraction = 0.01175, label="Altitude / km", aspect=40)
+
+        plt.scatter(x[0], y[0], color="#57b34f", marker=7, s=50, label="Start")
+        plt.scatter(x[11796], y[11796], color="#d64747", marker=7, s=50, label="End")
 
         plt.xlabel("Longitude", labelpad=20)
         plt.ylabel('Latitude', labelpad=25)
-        plt.colorbar(fraction = 0.01175, label="Altitude / km", aspect=40)
-
+        plt.legend()
         plt.show()
 
 
@@ -46,5 +49,4 @@ class MapMaker:
 
 if __name__ == '__main__':
     map_maker = MapMaker()
-    #map_maker.make_map_3d()
     map_maker.make_map_2d()
