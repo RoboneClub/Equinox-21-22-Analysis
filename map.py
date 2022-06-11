@@ -3,13 +3,16 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.cm as cmx
 import numpy as np
+import reverse_geocode as rg
 
-import csv_handler
+from handler import CsvHandler
+from handler import CoordinateHandler
 
 
 class MapMaker:
     def __init__(self) -> None:
-        csvh = csv_handler.CsvHandler()
+        ch = CoordinateHandler()
+        csvh = CsvHandler()
         self.data = csvh.get_records('data.csv')
         self.lat_data = np.array([float(data["Latitude"]) for data in self.data])
         self.long_data = np.array([float(data["Longitude"]) for data in self.data])
@@ -39,6 +42,11 @@ class MapMaker:
         plt.scatter(x[0], y[0], color="#57b34f", marker=7, s=50, label="Start")
         plt.scatter(x[11796], y[11796], color="#d64747", marker=7, s=50, label="End")
 
+        ipx = np.array([float(coord[1]) for coord in ch.get_coords()])
+        ipy = np.array([float(coord[0]) for coord in ch.get_coords()])
+
+        plt.scatter(ipx, ipy, color="#d64747", marker="x", s=150, label = "Points of interest")
+
         plt.xlabel("Longitude", labelpad=20)
         plt.ylabel('Latitude', labelpad=25)
         plt.legend()
@@ -49,4 +57,7 @@ class MapMaker:
 
 if __name__ == '__main__':
     map_maker = MapMaker()
+    ch = CoordinateHandler()
     map_maker.make_map_2d()
+    print(ch.get_coords())
+    print(ch.get_locations())
