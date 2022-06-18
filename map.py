@@ -39,8 +39,8 @@ class MapMaker:
         plt.scatter(x, y, c=z, cmap="plasma", marker='o', s=0.1, label="ISS Orbit")
         plt.colorbar(fraction = 0.01175, label="Altitude / km", aspect=40)
 
-        plt.scatter(x[0], y[0], color="#57b34f", marker=7, s=50, label="Start")
-        plt.scatter(x[11796], y[11796], color="#d64747", marker=7, s=50, label="End")
+        plt.scatter(x[0], y[0], color="#57b34f", marker=7, s=50, label="Start [hh:mm:ss]")
+        plt.scatter(x[11796], y[11796], color="#d64747", marker=7, s=50, label="End [hh:mm:ss]")
 
         ipx = np.array([float(coord[1]) for coord in ch.get_coords()])
         ipy = np.array([float(coord[0]) for coord in ch.get_coords()])
@@ -59,5 +59,5 @@ if __name__ == '__main__':
     map_maker = MapMaker()
     ch = CoordinateHandler()
     map_maker.make_map_2d()
-    print(ch.get_coords())
-    print(ch.get_locations())
+    print(ch.get_coords("interest-points"))
+    print(ch.get_locations("interest-points"))

@@ -18,18 +18,18 @@ class CsvHandler:
 
 
 class CoordinateHandler:
-    def get_images(self) -> list:
-        d = "interest-points"
+    def get_images(self, filename: str) -> list:
+        d = filename
         paths = []
         for path in os.listdir(d):
             full_path = os.path.abspath(os.path.join(d, path))
             if os.path.isfile(full_path):
                 paths.append(full_path)
         return paths
-    
-    def get_coords(self) -> list:
+
+    def get_coords(self, filename: str) -> list:
         coords_list = []
-        for path in self.get_images():
+        for path in self.get_images(filename):
             img = PIL.Image.open(path)
             exif = {
                 PIL.ExifTags.TAGS[k]: v
@@ -50,6 +50,65 @@ class CoordinateHandler:
             coords_list.append((lat_dd, long_dd))
         return coords_list
     
-    def get_locations(self) -> list:
-        cords = self.get_coords()
+    def get_locations(self, filename: str) -> list:
+        cords = self.get_coords(filename)
         return rg.search(cords)
+
+
+class DataHandler:
+    def __init__(self) -> None:
+        self.xla_headers = [
+            "ImgID",
+            "NDVI"
+        ]
+        self.xla_csv_record_id = 0
+    
+    def get_image_ids(self, filename: str) -> list:
+        d = filename
+        ids = []
+        for path in os.listdir(d):
+            id = path[6:10]
+            ids.append(id)
+        return ids
+    
+    def get_data_dicts(self, ids, ndvis):
+        datas = []
+        for i, id in enumerate(ids):
+            print(f"{id}, {ndvis[i]}")
+            data = {"ImgID": id, "NDVI": ndvis[i]}
+            datas.append(data)
+        return datas
+
+    def setup_xla_csv(self) -> None:
+        """Create AI XLA specific CSV file and write column headers to it.
+        """
+
+        # Create empty CSV file for AI XLA Logging.
+        with open("xla.csv", 'w') as file:
+            # Write column headers into the file.
+            header = ','.join(column for column in self.xla_headers) + '\n'
+            file.write(header)
+    
+    def log_xla_csv(self, data: dict) -> None:
+        """Log a record into the XLA CSV file.
+
+        Args:
+            data: dict = Dictionary including record data.
+        """
+        record = ""
+
+        # Append each value in the data dictionary
+        # to the record, separated by commas.
+        for key in self.xla_headers:
+            record += str(data[key])
+            record += ','
+        # Remove last comma and moves to next line to mark
+        # the end of a record and the start of a new one.
+        record = record[:-1] + '\n'
+
+        # Open CSV file.
+        with open("xla.csv", 'a') as file:
+            # Append record into file.
+            file.write(record)
+
+        self.xla_csv_record_id += 1
