@@ -2,14 +2,15 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from api import ClimateAnalysisIndicatorsTool, OpenWeatherMap, WorldWeatherOnline
-from magn import Magn, NoiseFiltering
+from imu import Magn
+from noise_filtering import NoiseFiltering
 
 """_______________________ Part 0: Importing the experiment data _______________________"""
 data = pd.read_csv('data.csv')
 
 data_ndvi = pd.read_csv('xla.csv')
 
-record_id = data["RecordID"]
+record_id = data["RecordID"].values
 time = data["Time"].values
 
 magnX = data["MagX"].values
@@ -62,9 +63,9 @@ ndvi_data_2022 = pd.read_csv('xla.csv')
 mean_ndvi_2022 = np.array(ndvi_data_2022.iloc[img_ids]["NDVI"])
 
 '''Adding new data to mean NDVI dataset'''
-mean_ndvi = np.concatenate((mean_ndvi, mean_ndvi_2022[:,None]),axis=1)
+mean_ndvi = np.concatenate((mean_ndvi, mean_ndvi_2022[:, None]), axis=1)
 
-
+print(mean_ndvi)
 
 """_______________________ Part 3: Fetching the Weather history data for the study points _______________________"""
 
@@ -152,10 +153,9 @@ plt.xlabel("Mean NDVI")
 plt.legend()
 plt.show()
 
-"""
-
 '''NDVI - Time - All Locations'''
 x_axis = np.array(years_of_study)
+plt.title(f"NDVI - Time - All Locations")
 for i, location in enumerate(locations):
     plt.plot(x_axis, mean_ndvi[i], label=location)
     plt.scatter(x_axis, mean_ndvi[i])
@@ -218,52 +218,53 @@ for i, location in enumerate(locations):
 
 '''Magnetic Intensity - Time - All Locations'''
 x_axis = np.array(years_of_study)
+plt.title(f"Magnetic Intensity - Year - All Locations")
 for i, location in enumerate(locations):
     plt.plot(x_axis, magn_history[i], label=location)
     plt.scatter(x_axis, magn_history[i])
 plt.xlabel("Year", labelpad=20)
-plt.ylabel('Mean NDVI', labelpad=20)
+plt.ylabel('Magnetic Intensity/µT', labelpad=20)
 plt.legend()
 plt.show()
 
 '''Magnetic Intensity - Temperature - All Locations'''
 for i, location in enumerate(locations):
-    plt.title(f"NDVI - Temperature - {location}")
+    plt.title(f"Magnetic Intensity - Temperature - {location}")
     plt.scatter(magn_history[i], avg_temp[i])
     plt.ylabel("Average Temperature/ C")
-    plt.xlabel("Mean NDVI")
+    plt.xlabel("Magnetic Intensity/µT")
     plt.show()
 
 '''Magnetic Intensity - Wind Speed - All Locations'''
 for i, location in enumerate(locations):
-    plt.title(f"NDVI - Wind Speed - {location}")
+    plt.title(f"Magnetic Intensity - Wind Speed - {location}")
     plt.scatter(magn_history[i], avg_wind_speed[i])
     plt.ylabel("Average Wind Speed/ KmHr")
-    plt.xlabel("Mean NDVI")
+    plt.xlabel("Magnetic Intensity/µT")
     plt.show()
 
 '''Magnetic Intensity - UV Index - All Locations'''
 for i, location in enumerate(locations):
-    plt.title(f"NDVI - UV Index - {location}")
+    plt.title(f"Magnetic Intensity - UV Index - {location}")
     plt.scatter(magn_history[i], avg_uv_index[i])
     plt.ylabel("Average UV index")
-    plt.xlabel("Mean NDVI")
+    plt.xlabel("Magnetic Intensity/µT")
     plt.show()
 
 '''Magnetic Intensity - Precipitation - All Locations'''
 for i, location in enumerate(locations):
-    plt.title(f"NDVI - Precipitation - {location}")
+    plt.title(f"Magnetic Intensity - Precipitation - {location}")
     plt.scatter(magn_history[i], avg_precip[i])
     plt.ylabel("Average Precipitation/mm")
-    plt.xlabel("Mean NDVI")
+    plt.xlabel("Magnetic Intensity/µT")
     plt.show()
 
 '''Magnetic Intensity - Humidity - All Locations'''
 for i, location in enumerate(locations):
-    plt.title(f"NDVI - Humidity - {location}")
+    plt.title(f"Magnetic Intensity - Humidity - {location}")
     plt.scatter(magn_history[i], avg_humidity[i])
     plt.ylabel("Average Humidity/%")
-    plt.xlabel("Mean NDVI")
+    plt.xlabel("Magnetic Intensity/µT")
     plt.show()
 
 # This belongs to Experiment 2.0 [ \/ ]
@@ -282,8 +283,8 @@ plt.title("Magnetic Intensity Data")
 plt.xlabel("Record ID")
 plt.ylabel("Magnetic Intensity/µT")
 plt.plot(record_id, magn_resultant, label='MagnResultant')
-plt.plot(record_id, [magn_mean]*len(magnX), label=f'Mean = {round(magn_mean, 4)}')
-plt.plot(record_id, [magn_sd]*len(magnX), label=f'Standard Deviation = {round(magn_sd, 4)}')
+plt.plot(record_id, [magn_mean]*len(magnX), label=f'Mean = {round(magn_mean, 3)}')
+plt.plot(record_id, [magn_sd]*len(magnX), label=f'Standard Deviation = {round(magn_sd, 3)}')
 plt.xticks(np.arange(min(record_id), max(record_id)+1, 500))
 plt.legend()
 plt.show()

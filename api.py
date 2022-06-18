@@ -8,10 +8,10 @@ import pandas as pd
 import pyowm
 import requests
 from geopy.geocoders import Nominatim
-from pyowm.utils.geo import Polygon as GeoPolygon
 
 owm_api_key = 'd9ee4bf970435c859be838ab8b771a9d'
 wwo_api_key = '03a6af5d265d4698b76151330221606'
+
 
 class WorldWeatherOnline:
     def __init__(self) -> None:
@@ -139,9 +139,6 @@ class OpenWeatherMap:
                 unixdate, start, end = self.get_date_range(date)
                 request = f"{self.url}={poly}&start={start}&end={end}&appid={self.api_key}"
                 responses = requests.get(request).json()
-                #print(responses)
-                #print(poly)
-                #print(date)
                 dts = []
                 for response in responses:
                     if "dt" in response:
@@ -173,7 +170,7 @@ class ClimateAnalysisIndicatorsTool():
     def get_location(self, lat, long):
         geolocator = Nominatim(user_agent="GoogleV3")
 
-        location = geolocator.reverse(str(lat)+","+str(long), language="en")
+        location = geolocator.reverse(str(lat) + "," + str(long), language="en")
         location = location.address if location != None else 'N/A'
 
         return location
@@ -207,7 +204,7 @@ class ClimateAnalysisIndicatorsTool():
         for location in data:
             co2_values.append(location[0])
         return co2_values
-    
+
     def get_ch4(self, data):
         ch4_values = []
         for location in data:

@@ -3,20 +3,22 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.cm as cmx
 import numpy as np
+import pandas as pd
 import reverse_geocode as rg
 
-from handler import CsvHandler
 from handler import CoordinateHandler
 
 
 class MapMaker:
     def __init__(self) -> None:
-        ch = CoordinateHandler()
-        csvh = CsvHandler()
-        self.data = csvh.get_records('data.csv')
-        self.lat_data = np.array([float(data["Latitude"]) for data in self.data])
-        self.long_data = np.array([float(data["Longitude"]) for data in self.data])
-        self.alt_data = np.array([float(data["Altitude"]) for data in self.data])
+
+        self.data = pd.read_csv('data.csv')
+        self.lat_data = np.array(self.data['Latitude'].values)
+        self.long_data = np.array(self.data['Longitude'].values)
+        self.alt_data = np.array(self.data['Altitude'].values)
+        self.points_of_study = [3978, 4207, 4341, 4848, 5315, 5409]
+        self.ip_lat_data = np.array(self.data.iloc[self.points_of_study]['Latitude'].values)
+        self.ip_long_data = np.array(self.data.iloc[self.points_of_study]['Longitude'].values)
 
     def make_map_2d(self) -> None:
 
@@ -42,11 +44,7 @@ class MapMaker:
         plt.scatter(x[0], y[0], color="#57b34f", marker=7, s=50, label="Start [hh:mm:ss]")
         plt.scatter(x[11796], y[11796], color="#d64747", marker=7, s=50, label="End [hh:mm:ss]")
 
-        ipx = np.array([float(coord[1]) for coord in ch.get_coords()])
-        ipy = np.array([float(coord[0]) for coord in ch.get_coords()])
-
-        plt.scatter(ipx, ipy, color="#d64747", marker="x", s=150, label = "Points of interest")
-
+        plt.scatter(self.ip_long_data, self.ip_lat_data, color="#d64747", marker="x", s=150, label = "Points of interest")
         plt.xlabel("Longitude", labelpad=20)
         plt.ylabel('Latitude', labelpad=25)
         plt.legend()
