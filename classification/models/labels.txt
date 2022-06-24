@@ -1,0 +1,2 @@
+0 Artificial
+1 Natural
