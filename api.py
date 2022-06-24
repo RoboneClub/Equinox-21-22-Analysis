@@ -2,7 +2,6 @@ import time
 from datetime import datetime, timedelta
 
 import numpy as np
-import pandas as pd
 import pyowm
 import requests
 from geopy.geocoders import Nominatim
@@ -444,7 +443,11 @@ class ClimateAnalysisIndicatorsTool():
     Gas Emission data and fetching separate metrics.
     """
     def __init__(self) -> None:
-        self.url = "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=cait-historical-emissions-data&q=&rows=1&refine.gases_name"
+        self.url = """
+            https://datasource.kapsarc.org/api/
+            records/1.0/search/?dataset=cait-historical-emissions-data
+            &q=&rows=1&refine.gases_name
+        """
 
     def get_location(self, lat: float, long: float) -> str:
         """Get address of location with given latitude and longitude.
