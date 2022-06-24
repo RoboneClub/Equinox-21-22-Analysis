@@ -1,6 +1,6 @@
 """
 Developed by: Team Equinox
-Description: Main code responsible for calculating NDVI.
+Description: Revised code responsible for recalculating NDVI.
 
 References:
 - NumPy library: https://numpy.org/doc/stable/
@@ -12,6 +12,7 @@ import numpy as np
 import cv2
 
 from handler import CoordinateHandler, DataHandler
+
 
 class NDVI:
     """Class responsible for calculating NDVI and applyig NDVI color maps to images."""
@@ -70,7 +71,7 @@ class NDVI:
         # Set the denomincator to the values of
         # the blue added to the red band of the image.
         bottom = (red.astype(float) + blue.astype(float))
-        bottom[bottom==0] = 0.01
+        bottom[bottom == 0] = 0.01
 
         # Calculate the NDVI using the NDVI equation.
         ndvi = (blue.astype(float) - red) / bottom
@@ -100,15 +101,21 @@ class NDVI:
 
         return ndvi_value
 
+
 if __name__ == "__main__":
     ch = CoordinateHandler()
     dh = DataHandler()
     ndvi = NDVI()
+
+    # Get NDVIs of all images.
     ndvis = []
-    print(ch.get_coords("interest-points"))
-    # for path in ch.get_images("all-images"):
-    #     ndvis.append(ndvi.apply_ndvi(path))
-    # datas = dh.get_data_dicts(dh.get_image_ids("all-images"), ndvis)
-    # dh.setup_xla_csv()
-    # for data in datas:
-    #     dh.log_xla_csv(data)
+    for path in ch.get_images("all-images"):
+        ndvis.append(ndvi.apply_ndvi(path))
+
+    # Get data dictionaries.
+    datas = dh.get_data_dicts(dh.get_image_ids("all-images"), ndvis)
+
+    # Save each record into XLA CSV file.
+    dh.setup_xla_csv()
+    for data in datas:
+        dh.log_xla_csv(data)
