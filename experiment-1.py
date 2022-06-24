@@ -154,8 +154,11 @@ magn_history = imu.get_magn_history(magn_points_of_study, decay=0.0005)
 x_axis = np.array(years_of_study)
 plt.title("NDVI - Time - All Locations")
 for i, location in enumerate(locations):
-    plt.plot(x_axis, mean_ndvi[i], label=location)
-    plt.scatter(x_axis, mean_ndvi[i])
+    if location != "Toksun County, Turpan, Xinjiang, China":
+        plt.plot(x_axis, mean_ndvi[i], label=location)
+        plt.scatter(x_axis, mean_ndvi[i])
+    else:
+        continue
 plt.xlabel("Year", labelpad=20)
 plt.ylabel('Mean NDVI', labelpad=20)
 plt.legend()
@@ -202,6 +205,16 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"NDVI - Temperature - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("NDVI - Temperature - All Locations")
+    plt.scatter(mean_ndvi[i], avg_temp[i], label=f"{location}")
+plt.xlabel("Mean NDVI")
+plt.ylabel("Average Temperature/C")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("NDVI - Temperature - All Locations.png", dpi=500)
+plt.show()
 
 # 6.1.3.2 - NDVI - Wind Speed - All Locations
 for i, location in enumerate(locations):
@@ -213,17 +226,38 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"NDVI - Wind Speed - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("NDVI - Wind Speed - All Locations")
+    plt.scatter(mean_ndvi[i], avg_wind_speed[i], label=f"{location}")
+plt.xlabel("Mean NDVI")
+plt.ylabel("Average Wind Speed/KmHr")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("NDVI - Wind Speed - All Locations.png", dpi=500)
+plt.show()
+
 
 # 6.1.3.3 - NDVI - UV Index - All Locations
 for i, location in enumerate(locations):
     plt.title(f"NDVI - UV Index - {location}")
     plt.scatter(mean_ndvi[i], avg_uv_index[i])
     plt.xlabel("Mean NDVI")
-    plt.ylabel("Average UV index")
+    plt.ylabel("Average UV Index")
     fig = plt.gcf()
     fig.set_size_inches(16, 9)
     plt.savefig(f"NDVI - UV Index - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("NDVI - UV Index - All Locations")
+    plt.scatter(mean_ndvi[i], avg_uv_index[i], label=f"{location}")
+plt.xlabel("Mean NDVI")
+plt.ylabel("Average UV Index")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("NDVI - UV Index - All Locations.png", dpi=500)
+plt.show()
 
 # 6.1.3.4 - NDVI - Precipitation - All Locations
 for i, location in enumerate(locations):
@@ -235,6 +269,16 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"NDVI - Precipitation - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("NDVI - Precipitation - All Locations")
+    plt.scatter(mean_ndvi[i], avg_precip[i], label=f"{location}")
+plt.xlabel("Mean NDVI")
+plt.ylabel("Average Precipitation/mm")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("NDVI - Precipitation - All Locations.png", dpi=500)
+plt.show()
 
 # 6.1.3.5 - NDVI - Humidity - All Locations
 for i, location in enumerate(locations):
@@ -246,6 +290,16 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"NDVI - Humidity - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("NDVI - Humidity - All Locations")
+    plt.scatter(mean_ndvi[i], avg_humidity[i], label=f"{location}")
+plt.xlabel("Mean NDVI")
+plt.ylabel("Average Humidity/%")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("NDVI - Humidity - All Locations.png", dpi=500)
+plt.show()
 
 # 6.1.4 - NDVI - Magnetic Intensity - All Locations
 for i, location in enumerate(locations):
@@ -257,6 +311,16 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"Magnetic Intensity - Mean NDVI - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("Magnetic Intensity - Mean NDVI - All Locations")
+    plt.scatter(mean_ndvi[i], magn_history[i], label=f"{location}")
+plt.xlabel("Mean NDVI")
+plt.ylabel("Magnetic Intensity/µT")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("Magnetic Intensity - Mean NDVI - All Locations.png", dpi=500)
+plt.show()
 
 
 # 6.2 -----------------------Magnetic Intensity-----------------------
@@ -288,6 +352,16 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"Magnetic Intensity - Temperature - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("Magnetic Intensity - Temperature - All Locations")
+    plt.scatter(magn_history[i], avg_temp[i], label=f"{location}")
+plt.xlabel("Magnetic Intensity/µT")
+plt.ylabel("Average Temperature/C")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("Magnetic Intensity - Temperature - All Locations.png", dpi=500)
+plt.show()
 
 # 6.2.2.2 - Magnetic Intensity - Wind Speed - All Locations
 for i, location in enumerate(locations):
@@ -299,17 +373,37 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"Magnetic Intensity - Wind Speed - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("Magnetic Intensity - Wind Speed - All Locations")
+    plt.scatter(magn_history[i], avg_wind_speed[i], label=f"{location}")
+plt.xlabel("Magnetic Intensity/µT")
+plt.ylabel("Average Wind Speed/KmHr")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("Magnetic Intensity - Wind Speed - All Locations.png", dpi=500)
+plt.show()
 
 # 6.2.2.3 - Magnetic Intensity - UV Index - All Locations
 for i, location in enumerate(locations):
     plt.title(f"Magnetic Intensity - UV Index - {location}")
     plt.scatter(magn_history[i], avg_uv_index[i])
     plt.xlabel("Magnetic Intensity/µT")
-    plt.ylabel("Average UV index")
+    plt.ylabel("Average UV Index")
     fig = plt.gcf()
     fig.set_size_inches(16, 9)
     plt.savefig(f"Magnetic Intensity - UV Index - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("Magnetic Intensity - UV Index - All Locations")
+    plt.scatter(magn_history[i], avg_uv_index[i], label=f"{location}")
+plt.xlabel("Magnetic Intensity/µT")
+plt.ylabel("Average UV Index")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("Magnetic Intensity - UV Index - All Locations.png", dpi=500)
+plt.show()
 
 # 6.2.2.4 - Magnetic Intensity - Precipitation - All Locations
 for i, location in enumerate(locations):
@@ -321,6 +415,16 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"Magnetic Intensity - Precipitation - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("Magnetic Intensity - Precipitation - All Locations")
+    plt.scatter(magn_history[i], avg_precip[i], label=f"{location}")
+plt.xlabel("Magnetic Intensity/µT")
+plt.ylabel("Average Precipitation/mm")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("Magnetic Intensity - Precipitation - All Locations.png", dpi=500)
+plt.show()
 
 # 6.2.2.5 - Magnetic Intensity - Humidity - All Locations
 for i, location in enumerate(locations):
@@ -332,3 +436,13 @@ for i, location in enumerate(locations):
     fig.set_size_inches(16, 9)
     plt.savefig(f"Magnetic Intensity - Humidity - {location}.png", dpi=500)
     plt.show()
+for i, location in enumerate(locations):
+    plt.title("Magnetic Intensity - Humidity - All Locations")
+    plt.scatter(magn_history[i], avg_humidity[i], label=f"{location}")
+plt.xlabel("Magnetic Intensity/µT")
+plt.ylabel("Average Humidity/%")
+plt.legend()
+fig = plt.gcf()
+fig.set_size_inches(16, 9)
+plt.savefig("Magnetic Intensity - Humidity - All Locations.png", dpi=500)
+plt.show()

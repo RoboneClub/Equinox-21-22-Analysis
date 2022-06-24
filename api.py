@@ -320,7 +320,7 @@ class OpenWeatherMap:
     """
     def __init__(self) -> None:
         self.api_key = owm_api_key
-        self.url = 'https://api.agromonitoring.com/agro/1.0/ndvi/history?polyid'
+        self.url = "https://api.agromonitoring.com/agro/1.0/ndvi/history?polyid"
         self.mgr = pyowm.OWM(self.api_key).agro_manager()
 
     def get_polys(self) -> list:
@@ -443,11 +443,7 @@ class ClimateAnalysisIndicatorsTool():
     Gas Emission data and fetching separate metrics.
     """
     def __init__(self) -> None:
-        self.url = """
-            https://datasource.kapsarc.org/api/
-            records/1.0/search/?dataset=cait-historical-emissions-data
-            &q=&rows=1&refine.gases_name
-        """
+        self.url = "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=cait-historical-emissions-data&q=&rows=1&refine.gases_name"
 
     def get_location(self, lat: float, long: float) -> str:
         """Get address of location with given latitude and longitude.
@@ -482,13 +478,7 @@ class ClimateAnalysisIndicatorsTool():
         nlat = lat - magnitude
         plon = long + magnitude
         nlon = long - magnitude
-        geopoly = f"""
-            ({plat}%2C+{plon})%2C+
-            ({nlat}%2C+{plon})%2C+
-            ({nlat}%2C+{nlon})%2C+
-            ({plat}%2C+{nlon})%2C+
-            ({plat}%2C+{plon})
-        """
+        geopoly = f"({plat}%2C+{plon})%2C+({nlat}%2C+{plon})%2C+({nlat}%2C+{nlon})%2C+({plat}%2C+{nlon})%2C+({plat}%2C+{plon})"
         return geopoly
 
     def get_gas_emission_data(self, lat_dd: list, long_dd: list, date: str) -> list:
@@ -504,9 +494,10 @@ class ClimateAnalysisIndicatorsTool():
         """
         this_location_gass_emissions = []
 
-        # Specify gases.
-        gases = ['CO2', 'CH4']
         for lat, long in zip(lat_dd, long_dd):
+            # Specify gases.
+            gases = ['CO2', 'CH4']
+
             # Select polygon.
             poly = self.make_poly(lat, long)
 
@@ -515,16 +506,13 @@ class ClimateAnalysisIndicatorsTool():
             this_gas_emissions = []
             for gas in gases:
                 # Request data.
-                request = f"""
-                    {self.url}={gas}
-                    &refine.location_name={location}
-                    &refine.date={date}
-                    &geofilter.polygon={poly}
-                """
+                request = f"{self.url}={gas}&refine.location_name={location}&refine.date={date}&geofilter.polygon={poly}"
                 r = requests.get(request).json()
 
                 # Single out gas emission count value.
-                this_gas_emissions.append(r["records"][0]["fields"]["value"])
+                value = r["records"][0]["fields"]["value"]
+                value = value if value >= 0 else np.NaN
+                this_gas_emissions.append(value)
             this_location_gass_emissions.append(this_gas_emissions)
         return this_location_gass_emissions
 
