@@ -258,7 +258,6 @@ avg_humidity = np.array(wwo.get_avg_humidity_single(weather_data)).flatten()
 
 # _______________________ 4: Plotting the data _______________________
 
-
 # 4.1 -----------------------NDVI-----------------------
 
 # 4.1.1 - NDVI - Record ID
@@ -721,8 +720,13 @@ plt.title(
 )
 plt.xlabel("Record ID")
 plt.ylabel("Correlation Coefficient")
-plt.plot(record_id, magn_acc_filtered_cor)
+plt.plot(record_id, magn_acc_filtered_cor, label="Correlation")
+plt.plot(
+    record_id,
+    [imu.get_mean(magn_acc_filtered_cor)] * len(record_id),
+    label=f"Mean: {round(imu.get_mean(magn_acc_filtered_cor), 3)}")
 plt.xticks(np.arange(min(record_id), max(record_id) + 1, 500))
+plt.legend()
 fig = plt.gcf()
 fig.set_size_inches(16, 9)
 plt.savefig(
@@ -736,8 +740,13 @@ plt.title(
 )
 plt.xlabel("Record ID")
 plt.ylabel("Correlation Coefficient")
-plt.plot(record_id, magn_gyro_filtered_cor)
+plt.plot(record_id, magn_gyro_filtered_cor, label="Correlation")
+plt.plot(
+    record_id,
+    [imu.get_mean(magn_gyro_filtered_cor)] * len(record_id),
+    label=f"Mean: {round(imu.get_mean(magn_gyro_filtered_cor), 3)}")
 plt.xticks(np.arange(min(record_id), max(record_id) + 1, 500))
+plt.legend()
 fig = plt.gcf()
 fig.set_size_inches(16, 9)
 plt.savefig(
@@ -751,8 +760,13 @@ plt.title(
 )
 plt.xlabel("Record ID")
 plt.ylabel("Correlation Coefficient")
-plt.plot(record_id, acc_gyro_filtered_cor)
+plt.plot(record_id, acc_gyro_filtered_cor, label="Correlation")
+plt.plot(
+    record_id,
+    [imu.get_mean(acc_gyro_filtered_cor)] * len(record_id),
+    label=f"Mean: {round(imu.get_mean(acc_gyro_filtered_cor), 3)}")
 plt.xticks(np.arange(min(record_id), max(record_id) + 1, 500))
+plt.legend()
 fig = plt.gcf()
 fig.set_size_inches(16, 9)
 plt.savefig(
