@@ -19,29 +19,30 @@ Here is an image of the flight path that the ISS took while our experiment ran
 # Code
 
 **api.py**  
-This file is used to handle all of requests and downloads for the APIs used in our experiment. We used it to obtain: weather data (temperature, uv index, precipitation, wind speed and humidity), NDVI data and gas emissions.
+This file is used to handle all of requests and downloads for the APIs used in our experiment. We used it to obtain: weather data (temperature, uv index, precipitation, wind speed and humidity), NDVI data and gas emission data (CO2 and CH4).
 
-**experiment-1.py**  
+**experiment-1.py**
 This file contains the code used for fetching all of the data required from APIs, analysing data from the IMU, and plotting all of the graphs necessary for experiment 1.
 
-**experiment-2.py**  
+**experiment-2.py**
 This file contains the code used for fetching all of the data required from APIs, analysing data from the IMU, and plotting all of the graphs necessary for experiment 2.
-**gas_emission_table.py**  
+
+**gas_emission_table.py**
 This file contains the code necessary to gather the data necessary for plotting the gas emissions for the study points.
 
-**handler.py**  
+**handler.py**
 This file contains the code to handle different types of information and convert the data to the required format. The data that gets handled is: coordinates, location and writing ndvi data to a new csv file.
 
-**imu.py**  
+**imu.py**
 This file is responsible for processing all of the data gathered by the IMU
 
-**map.py**  
+**map.py**
 This file is the code responsible for making the map of the path taken by the ISS during our experiment. It also contains the code to plot all the points on the map where the pictures were taken.
 
-**ndviv2.py**  
+**ndviv2.py**
 This file contains the code responsible for calculating the average ndvi for each image.
 
-**noise_filtering.py**  
+**noise_filtering.py**
 This file contains the code required to remove all of the noise from the IMU readings, making it smoother.
 
 # Results
