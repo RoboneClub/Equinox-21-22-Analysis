@@ -2,7 +2,7 @@
 
 This GitHub repository contains the code responsible for analysing and processing our data gathered on the International Space Station from the AstroPi competition. Our experiment was conducted on the 16th of April 2022.
 
-![](Map.png)
+![](plots/Map.png)
 
 Here is an image of the flight path that the ISS took while our experiment ran
 
